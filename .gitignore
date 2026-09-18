@@ -1,0 +1,8 @@
+.env
+.env.*
+!.env.example
+
+backend/vendor/
+frontend/node_modules/
+
+postgres_data/
