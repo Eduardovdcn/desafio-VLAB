@@ -124,6 +124,10 @@ Além da stack obrigatória (React, TypeScript, Laravel, PostgreSQL, Docker):
 | Backend — UUID | `Illuminate\Support\Str::uuid()` (nativo do Laravel) | Decidido — nenhum pacote externo necessário. |
 | Frontend — data fetching / cache | **TanStack Query (React Query)** | Decidido — resolve de forma pronta os estados de carregamento/sucesso/vazio/erro exigidos pelo edital (seção D do requisitos), reduzindo boilerplate manual. |
 | Frontend — formulários | Componentes controlados manuais (`useState`) | Decidido — só há 1-2 formulários no projeto; uma lib como `react-hook-form` adicionaria uma dependência nova pra um ganho pequeno nesse volume de formulários. |
+| Frontend — cliente HTTP | `fetch` nativo | Decidido — sem necessidade de interceptors ou cancelamento avançado de requisição neste projeto; axios seria uma dependência a mais sem ganho real de funcionalidade aqui. |
+| Frontend — estilização | **Tailwind CSS** | Decidido — acelera a estilização sem escrever CSS à mão; roda como etapa de build via Node, não afeta o bundle final além do CSS gerado. |
+| Frontend — componentes de UI | shadcn/ui (+ Radix UI como dependência de comportamento/acessibilidade) | Decidido — não é biblioteca importada de node_modules no sentido tradicional; o CLI copia o código-fonte dos componentes pro repositório, que passam a ser editáveis livremente. Mapeia bem com as telas do projeto (Select, Table, Badge, Form) e traz acessibilidade de graça via Radix, ajudando no critério pontuável de responsividade/acessibilidade. Depende do Tailwind já decidido acima. |
+| Frontend — ícones | **lucide-react** | Decidido — dependência barata, melhora a UI sem custo de aprendizado. |
 
 Toda biblioteca aqui listada precisa ser justificada no README final, conforme exigido pelo edital (seção 2.1).
 
