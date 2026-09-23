@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Actions\Solicitacao\AtualizarStatusSolicitacaoAction;
 use App\Actions\Solicitacao\CriarSolicitacaoAction;
+use App\Actions\Solicitacao\ListarSolicitacoesAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AtualizarStatusRequest;
 use App\Http\Requests\CriarSolicitacaoRequest;
@@ -15,7 +16,15 @@ class SolicitacaoController extends Controller
     public function __construct(
         private readonly CriarSolicitacaoAction $criarSolicitacaoAction,
         private readonly AtualizarStatusSolicitacaoAction $atualizarStatusSolicitacaoAction,
+        private readonly ListarSolicitacoesAction $listarSolicitacoesAction,
     ) {}
+
+    public function index(): JsonResponse
+    {
+        $paginacao = $this->listarSolicitacoesAction->execute();
+
+        return response()->json($paginacao, 200);
+    }
 
     public function store(CriarSolicitacaoRequest $request): JsonResponse
     {

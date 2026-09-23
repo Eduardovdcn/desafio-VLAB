@@ -5,11 +5,13 @@ namespace App\Models;
 use App\Enums\Categoria;
 use App\Enums\Prioridade;
 use App\Enums\Status;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
 class Solicitacao extends Model
 {
+    use HasFactory;
     protected $table = 'solicitacoes';
 
     public const CREATED_AT = 'data_criacao';
