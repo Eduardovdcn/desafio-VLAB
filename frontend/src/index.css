@@ -235,6 +235,35 @@ td:first-child {
   font-size: 0.78rem;
 }
 
+.status-update-action {
+  display: grid;
+  min-width: 150px;
+  gap: 6px;
+}
+
+.status-update-action select {
+  min-width: 0;
+  padding: 7px 8px;
+  font-size: 0.82rem;
+}
+
+.status-update-action button {
+  margin-top: 0;
+  padding: 7px 9px;
+  font-size: 0.78rem;
+}
+
+.status-update-error {
+  color: #a83232;
+  font-size: 0.76rem;
+}
+
+.terminal-status {
+  color: #587067;
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+
 .status {
   display: inline-block;
   border-radius: 999px;

@@ -1,5 +1,6 @@
 import type { Categoria, Prioridade, Status } from "../../../api/types";
 import { useSolicitacoes } from "../hooks/useSolicitacoes";
+import { StatusUpdateAction } from "./StatusUpdateAction";
 
 const categoriaLabels: Record<Categoria, string> = {
   CONSULTA: "Consulta",
@@ -99,6 +100,7 @@ export function SolicitacaoList() {
                 <th scope="col">Prioridade</th>
                 <th scope="col">Status</th>
                 <th scope="col">Criada em</th>
+                <th scope="col">Ação</th>
               </tr>
             </thead>
             <tbody>
@@ -123,6 +125,9 @@ export function SolicitacaoList() {
                   </td>
                   <td data-label="Criada em">
                     {formatDate(solicitacao.data_criacao)}
+                  </td>
+                  <td data-label="Ação">
+                    <StatusUpdateAction solicitacao={solicitacao} />
                   </td>
                 </tr>
               ))}

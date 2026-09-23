@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState, type FormEvent } from "react";
 import { criarSolicitacao } from "../../../api/solicitacoesClient";
 import {
@@ -58,6 +58,7 @@ function validate(form: FormState): FormErrors {
 }
 
 export function SolicitacaoForm() {
+  const queryClient = useQueryClient();
   const [form, setForm] = useState<FormState>(initialFormState);
   const [errors, setErrors] = useState<FormErrors>({});
   const [successMessage, setSuccessMessage] = useState("");
@@ -90,6 +91,7 @@ export function SolicitacaoForm() {
       },
       {
         onSuccess: (solicitacao) => {
+          queryClient.invalidateQueries({ queryKey: ["solicitacoes"] });
           setForm(initialFormState);
           setSuccessMessage(
             `Solicitação criada com o protocolo ${solicitacao.protocolo}.`,
