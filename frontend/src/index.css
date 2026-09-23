@@ -179,6 +179,57 @@ button:disabled {
   font-weight: 700;
 }
 
+.solicitacao-filtros {
+  margin-bottom: 24px;
+  border: 1px solid #e1eae6;
+  border-radius: 4px;
+  padding: 16px;
+  background: #f8fbfa;
+}
+
+.filtros-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.filtros-grid .form-field {
+  gap: 6px;
+}
+
+.filtros-grid label {
+  font-size: 0.8rem;
+}
+
+.filtros-grid select {
+  padding: 9px 10px;
+  font-size: 0.86rem;
+}
+
+.filtros-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.filtros-actions button {
+  margin-top: 0;
+  padding: 9px 13px;
+  font-size: 0.84rem;
+}
+
+.button-secondary {
+  color: #27735b;
+  background: transparent;
+  box-shadow: inset 0 0 0 1px #27735b;
+}
+
+.button-secondary:hover:not(:disabled) {
+  color: #ffffff;
+  background: #27735b;
+}
+
 .list-state {
   margin: 0;
   border: 1px dashed #b8cbc3;
@@ -330,6 +381,10 @@ td:first-child {
   .list-count {
     display: block;
     margin-top: 8px;
+  }
+
+  .filtros-grid {
+    grid-template-columns: 1fr;
   }
 
   table,

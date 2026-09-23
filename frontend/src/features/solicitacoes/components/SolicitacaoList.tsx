@@ -1,4 +1,13 @@
-import type { Categoria, Prioridade, Status } from "../../../api/types";
+import { useState, type FormEvent } from "react";
+import {
+  CATEGORIAS,
+  PRIORIDADES,
+  STATUS,
+  type Categoria,
+  type Prioridade,
+  type SolicitacoesFilters,
+  type Status,
+} from "../../../api/types";
 import { useSolicitacoes } from "../hooks/useSolicitacoes";
 import { StatusUpdateAction } from "./StatusUpdateAction";
 
@@ -32,7 +41,103 @@ function formatDate(date: string) {
 }
 
 export function SolicitacaoList() {
-  const solicitacoesQuery = useSolicitacoes();
+  const [draftFilters, setDraftFilters] = useState<SolicitacoesFilters>({});
+  const [appliedFilters, setAppliedFilters] = useState<SolicitacoesFilters>({});
+  const solicitacoesQuery = useSolicitacoes(appliedFilters);
+
+  function updateFilter(field: keyof SolicitacoesFilters, value: string) {
+    setDraftFilters((current) => ({
+      ...current,
+      [field]: value || undefined,
+    }));
+  }
+
+  function handleFilterSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setAppliedFilters(draftFilters);
+  }
+
+  function clearFilters() {
+    setDraftFilters({});
+    setAppliedFilters({});
+  }
+
+  const filtrosAtivos = Object.values(appliedFilters).some(
+    (value) => value !== undefined,
+  );
+
+  function renderFilters() {
+    return (
+      <form className="solicitacao-filtros" onSubmit={handleFilterSubmit}>
+        <div className="filtros-grid">
+          <div className="form-field">
+            <label htmlFor="filtro-status">Status</label>
+            <select
+              id="filtro-status"
+              value={draftFilters.status ?? ""}
+              onChange={(event) => updateFilter("status", event.target.value)}
+            >
+              <option value="">Todos os status</option>
+              {STATUS.map((status) => (
+                <option key={status} value={status}>
+                  {statusLabels[status]}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="form-field">
+            <label htmlFor="filtro-categoria">Categoria</label>
+            <select
+              id="filtro-categoria"
+              value={draftFilters.categoria ?? ""}
+              onChange={(event) =>
+                updateFilter("categoria", event.target.value)
+              }
+            >
+              <option value="">Todas as categorias</option>
+              {CATEGORIAS.map((categoria) => (
+                <option key={categoria} value={categoria}>
+                  {categoriaLabels[categoria]}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="form-field">
+            <label htmlFor="filtro-prioridade">Prioridade</label>
+            <select
+              id="filtro-prioridade"
+              value={draftFilters.prioridade ?? ""}
+              onChange={(event) =>
+                updateFilter("prioridade", event.target.value)
+              }
+            >
+              <option value="">Todas as prioridades</option>
+              {PRIORIDADES.map((prioridade) => (
+                <option key={prioridade} value={prioridade}>
+                  {prioridadeLabels[prioridade]}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        <div className="filtros-actions">
+          <button type="submit">Aplicar filtros</button>
+          {filtrosAtivos && (
+            <button
+              type="button"
+              className="button-secondary"
+              onClick={clearFilters}
+            >
+              Limpar filtros
+            </button>
+          )}
+        </div>
+      </form>
+    );
+  }
 
   if (solicitacoesQuery.isPending) {
     return (
@@ -43,6 +148,7 @@ export function SolicitacaoList() {
             <h2 id="lista-titulo">Solicitações registradas</h2>
           </div>
         </div>
+        {renderFilters()}
         <p className="list-state" role="status">
           Carregando solicitações...
         </p>
@@ -59,6 +165,7 @@ export function SolicitacaoList() {
             <h2 id="lista-titulo">Solicitações registradas</h2>
           </div>
         </div>
+        {renderFilters()}
         <div className="list-state list-state-error" role="alert">
           <p>
             {solicitacoesQuery.error instanceof Error
@@ -83,6 +190,8 @@ export function SolicitacaoList() {
           {solicitacoesQuery.data.meta.total} registrada(s)
         </span>
       </div>
+
+      {renderFilters()}
 
       {solicitacoes.length === 0 ? (
         <p className="list-state">Nenhuma solicitação registrada ainda.</p>
