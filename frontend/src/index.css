@@ -17,13 +17,147 @@ body {
 
 main {
   display: grid;
-  grid-template-columns: minmax(0, 720px) minmax(0, 1100px);
+  grid-template-columns: minmax(0, 520px) minmax(0, 720px) minmax(0, 1100px);
   align-items: start;
   justify-content: center;
   gap: 24px;
   min-height: 100vh;
   padding: 32px 16px;
   background: linear-gradient(135deg, #eef3f1 0%, #dfe9e5 100%);
+}
+
+.dashboard {
+  min-width: 0;
+  padding: clamp(24px, 4vw, 40px);
+  border: 1px solid #d3dfdb;
+  border-radius: 8px;
+  background: #19352d;
+  color: #ffffff;
+  box-shadow: 0 18px 40px rgb(31 61 52 / 12%);
+}
+
+.dashboard-heading {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.dashboard-heading h1 {
+  margin: 0;
+  font-family: Georgia, serif;
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  font-weight: 500;
+}
+
+.dashboard-heading p:last-child {
+  margin: 12px 0 0;
+  color: #c2d7ce;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.dashboard .eyebrow {
+  color: #8ed0b3;
+}
+
+.dashboard-total {
+  flex: 0 0 auto;
+  color: #c2d7ce;
+  font-size: 0.85rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.dashboard-metrics {
+  display: grid;
+  gap: 10px;
+}
+
+.metric-card {
+  display: grid;
+  gap: 4px;
+  border: 1px solid #44675b;
+  border-radius: 4px;
+  padding: 16px;
+  background: #294b40;
+}
+
+.metric-card-highlight {
+  border-color: #8ed0b3;
+  background: #27735b;
+}
+
+.metric-label {
+  color: #c2d7ce;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.metric-card strong {
+  font-family: Georgia, serif;
+  font-size: 2rem;
+  font-weight: 500;
+}
+
+.metric-card > span:last-child {
+  color: #c2d7ce;
+  font-size: 0.8rem;
+}
+
+.dashboard-columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.dashboard-panel {
+  border-top: 1px solid #44675b;
+  padding-top: 18px;
+}
+
+.dashboard-panel h2 {
+  margin-bottom: 12px;
+  color: #ffffff;
+  font-family: "Segoe UI", sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.summary-list {
+  display: grid;
+  gap: 4px;
+}
+
+.summary-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  color: #c2d7ce;
+  font-size: 0.8rem;
+}
+
+.summary-row strong {
+  color: #ffffff;
+}
+
+.dashboard-state {
+  margin: 0;
+  border: 1px dashed #6b9b89;
+  border-radius: 4px;
+  padding: 24px 16px;
+  color: #c2d7ce;
+  text-align: center;
+}
+
+.dashboard-state-error {
+  border-style: solid;
+  color: #ffd6d6;
+  background: #5f3434;
 }
 
 .solicitacao-form {
@@ -384,6 +518,19 @@ td:first-child {
   }
 
   .filtros-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-heading {
+    display: block;
+  }
+
+  .dashboard-total {
+    display: block;
+    margin-top: 10px;
+  }
+
+  .dashboard-columns {
     grid-template-columns: 1fr;
   }
 
