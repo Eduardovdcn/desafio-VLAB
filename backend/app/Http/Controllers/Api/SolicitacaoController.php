@@ -24,6 +24,11 @@ class SolicitacaoController extends Controller
         return response()->json($solicitacao, 201);
     }
 
+    public function show(Solicitacao $solicitacao): JsonResponse
+    {
+        return response()->json($solicitacao, 200);
+    }
+
     public function updateStatus(Solicitacao $solicitacao, AtualizarStatusRequest $request): JsonResponse
     {
         try {
