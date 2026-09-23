@@ -1,8 +1,10 @@
 # Solicitações de Atendimento
 
+Aplicação full stack para registrar, listar e atualizar solicitações de atendimento. O frontend React consome a API Laravel, que persiste os dados no PostgreSQL.
+
 ## Execução local
 
-Pré-requisitos: Docker Desktop com Docker Compose habilitado.
+Pré-requisito: Docker Desktop com Docker Compose habilitado.
 
 1. Copie `.env.example` para `.env`:
 
@@ -10,26 +12,48 @@ Pré-requisitos: Docker Desktop com Docker Compose habilitado.
    Copy-Item .env.example .env
    ```
 
-2. Edite `.env` e defina `POSTGRES_PASSWORD` com uma senha local. O Compose não possui senha padrão e falha explicitamente se essa variável não for definida.
-3. Suba os serviços:
+2. Defina `POSTGRES_PASSWORD` no arquivo `.env`. A senha é obrigatória para iniciar o banco e não deve ser versionada.
+3. Suba os três serviços:
 
-   ```bash
+   ```powershell
    docker compose up --build
    ```
 
-Os serviços ficam disponíveis em:
+Serviços disponíveis:
 
-- Frontend: http://localhost:5173
-- Backend: http://localhost:8000
-- PostgreSQL: somente na rede interna do Compose, no host `db` e porta `5432`
+- Frontend React: http://localhost:5173
+- API Laravel: http://localhost:8000
+- PostgreSQL: apenas na rede interna do Compose, no host `db` e porta `5432`
 
-O PostgreSQL usa o volume nomeado `postgres_data`. A API Laravel e a aplicação React serão adicionadas nas próximas tarefas, mantendo esta orquestração como ponto único de execução.
+Para encerrar os serviços:
 
-## Versões fixadas
+```powershell
+docker compose down
+```
 
-- PHP 8.5 (`php:8.5-cli-alpine`), em suporte ativo conforme a política oficial do PHP.
-- PostgreSQL 18 (`postgres:18-alpine`), versão major atual suportada pela comunidade PostgreSQL.
-- Node.js 22 (`node:22-alpine`) para o runtime temporário do frontend.
-- Docker Compose para orquestração dos três serviços.
+O banco usa o volume nomeado `postgres_data`. Para remover também os dados persistidos, execute `docker compose down -v`.
 
-O arquivo `.env.example` é apenas um modelo e não contém uma senha. O arquivo `.env` é local, está ignorado pelo Git e não deve ser versionado. Para PostgreSQL 18, o volume usa `/var/lib/postgresql`, conforme a imagem oficial; 
+## Funcionalidades atuais
+
+- Criação de solicitação com validação client-side.
+- Listagem paginada com estados de carregamento, vazio, erro e sucesso.
+- Atualização de status respeitando as transições válidas.
+- Atualização automática da listagem após criação ou alteração de status.
+
+## API principal
+
+- `POST /api/v1/solicitacoes`
+- `GET /api/v1/solicitacoes`
+- `GET /api/v1/solicitacoes/{id}`
+- `PATCH /api/v1/solicitacoes/{id}/status`
+
+## Tecnologias e versões
+
+- React 19 + TypeScript 5.8 + Vite 7
+- TanStack Query 5
+- PHP 8.5 + Laravel 13
+- PostgreSQL 18
+- Node.js 22
+- Docker Compose
+
+O arquivo `.env.example` contém apenas configurações de exemplo. O arquivo `.env` é local, está ignorado pelo Git e não deve ser commitado.
