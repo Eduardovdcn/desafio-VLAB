@@ -8,6 +8,7 @@ use App\Actions\Solicitacao\ListarSolicitacoesAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AtualizarStatusRequest;
 use App\Http\Requests\CriarSolicitacaoRequest;
+use App\Http\Requests\ListarSolicitacoesRequest;
 use App\Models\Solicitacao;
 use Illuminate\Http\JsonResponse;
 
@@ -19,9 +20,9 @@ class SolicitacaoController extends Controller
         private readonly ListarSolicitacoesAction $listarSolicitacoesAction,
     ) {}
 
-    public function index(): JsonResponse
+    public function index(ListarSolicitacoesRequest $request): JsonResponse
     {
-        $paginacao = $this->listarSolicitacoesAction->execute();
+        $paginacao = $this->listarSolicitacoesAction->execute($request->validated());
 
         return response()->json($paginacao, 200);
     }
