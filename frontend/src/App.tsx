@@ -1,7 +1,9 @@
+import { SolicitacaoForm } from "./features/solicitacoes/components/SolicitacaoForm";
+
 export function App() {
   return (
     <main>
-      <h1>Solicitações de Atendimento</h1>
+      <SolicitacaoForm />
     </main>
   );
 }
