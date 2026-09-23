@@ -43,7 +43,10 @@ class SolicitacaoCreateTest extends TestCase
 
         $response = $this->postJson('/api/v1/solicitacoes', $payload);
 
-        $response->assertStatus(422)
-            ->assertJsonValidationErrors(['justificativa_prioridade']);
+        $response->assertStatus(400)
+            ->assertJsonPath(
+                'error.details.justificativa_prioridade.0',
+                'A justificativa da prioridade é obrigatória quando a prioridade for URGENTE.'
+            );
     }
 }

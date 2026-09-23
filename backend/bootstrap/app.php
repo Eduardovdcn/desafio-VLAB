@@ -30,7 +30,7 @@ return Application::configure(basePath: dirname(__DIR__))
                     'message' => 'Os dados enviados são inválidos.',
                     'details' => $exception->errors(),
                 ],
-            ], $exception->status);
+            ], 400);
         });
 
         $exceptions->render(function (ModelNotFoundException|NotFoundHttpException $exception, Request $request) {

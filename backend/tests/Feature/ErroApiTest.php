@@ -19,7 +19,7 @@ class ErroApiTest extends TestCase
             'descricao' => 'Teste de erro',
         ]);
 
-        $response->assertStatus(422)
+        $response->assertStatus(400)
             ->assertJsonStructure([
                 'error' => [
                     'code',
