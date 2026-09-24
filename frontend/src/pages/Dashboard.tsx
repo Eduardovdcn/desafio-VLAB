@@ -47,11 +47,20 @@ export function Dashboard() {
           <p className="eyebrow">Visão geral</p>
           <h1 id="dashboard-titulo">Resumo das solicitações</h1>
         </div>
-        <p className="dashboard-state dashboard-state-error" role="alert">
-          {solicitacoesQuery.error instanceof Error
-            ? solicitacoesQuery.error.message
-            : "Não foi possível carregar o resumo."}
-        </p>
+        <div className="dashboard-state dashboard-state-error" role="alert">
+          <p>
+            {solicitacoesQuery.error instanceof Error
+              ? solicitacoesQuery.error.message
+              : "Não foi possível carregar o resumo."}
+          </p>
+          <button
+            type="button"
+            className="button-secondary retry-button"
+            onClick={() => solicitacoesQuery.refetch()}
+          >
+            Tentar novamente
+          </button>
+        </div>
       </section>
     );
   }

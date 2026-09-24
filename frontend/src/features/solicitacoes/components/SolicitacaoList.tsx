@@ -176,6 +176,13 @@ export function SolicitacaoList({ onSelect }: SolicitacaoListProps) {
               ? solicitacoesQuery.error.message
               : "Não foi possível carregar as solicitações."}
           </p>
+          <button
+            type="button"
+            className="button-secondary retry-button"
+            onClick={() => solicitacoesQuery.refetch()}
+          >
+            Tentar novamente
+          </button>
         </div>
       </section>
     );

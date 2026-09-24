@@ -396,8 +396,19 @@ button:disabled {
   background: #fff0f0;
 }
 
-.list-state-error p {
+.list-state-error p,
+.dashboard-state-error p,
+.detail-state-error p {
   margin: 0;
+}
+
+.retry-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 12px;
+  padding: 9px 13px;
+  font-size: 0.84rem;
 }
 
 .table-wrapper {
@@ -564,6 +575,10 @@ td:first-child {
   border-style: solid;
   color: #8e2929;
   background: #fff0f0;
+}
+
+.detail-state-error .retry-button {
+  margin-top: 12px;
 }
 
 .detail-protocol {

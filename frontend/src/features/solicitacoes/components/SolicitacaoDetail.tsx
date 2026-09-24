@@ -57,11 +57,20 @@ export function SolicitacaoDetail({ id, onBack }: SolicitacaoDetailProps) {
       )}
 
       {solicitacaoQuery.isError && (
-        <p className="detail-state detail-state-error" role="alert">
-          {solicitacaoQuery.error instanceof Error
-            ? solicitacaoQuery.error.message
-            : "Não foi possível carregar os detalhes."}
-        </p>
+        <div className="detail-state detail-state-error" role="alert">
+          <p>
+            {solicitacaoQuery.error instanceof Error
+              ? solicitacaoQuery.error.message
+              : "Não foi possível carregar os detalhes."}
+          </p>
+          <button
+            type="button"
+            className="button-secondary retry-button"
+            onClick={() => solicitacaoQuery.refetch()}
+          >
+            Tentar novamente
+          </button>
+        </div>
       )}
 
       {solicitacaoQuery.data && (
