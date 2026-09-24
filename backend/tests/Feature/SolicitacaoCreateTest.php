@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use App\Models\Solicitacao;
+use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -48,5 +50,21 @@ class SolicitacaoCreateTest extends TestCase
                 'error.details.justificativa_prioridade.0',
                 'A justificativa da prioridade é obrigatória quando a prioridade for URGENTE.'
             );
+    }
+
+    public function test_protocolo_e_unico(): void
+    {
+        $payload = [
+            'nome_solicitante' => 'Ana Souza',
+            'categoria' => 'CONSULTA',
+            'prioridade' => 'MEDIA',
+            'descricao' => 'Solicitação para validar protocolo único.',
+        ];
+
+        $primeira = Solicitacao::create($payload + ['protocolo' => '550e8400-e29b-41d4-a716-446655440000']);
+
+        $this->expectException(UniqueConstraintViolationException::class);
+
+        Solicitacao::create($payload + ['protocolo' => $primeira->protocolo]);
     }
 }

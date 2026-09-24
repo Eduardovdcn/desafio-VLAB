@@ -19,6 +19,7 @@ class Solicitacao extends Model
     public const UPDATED_AT = 'data_atualizacao';
 
     protected $fillable = [
+        'protocolo',
         'nome_solicitante',
         'categoria',
         'prioridade',
