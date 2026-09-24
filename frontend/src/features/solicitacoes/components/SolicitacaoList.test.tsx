@@ -42,15 +42,15 @@ describe("SolicitacaoList", () => {
       </QueryClientProvider>,
     );
 
-    expect(await screen.findByRole("alert")).toHaveTextContent(
-      "Falha de rede",
-    );
+    expect(await screen.findByRole("alert")).toHaveTextContent("Falha de rede");
     expect(
       screen.getByRole("button", { name: /tentar novamente/i }),
     ).toBeInTheDocument();
 
     await user.click(screen.getByRole("button", { name: /tentar novamente/i }));
 
-    expect(await screen.findByText(/nenhuma solicitação registrada ainda/i)).toBeInTheDocument();
+    expect(
+      await screen.findByText(/nenhuma solicitação registrada ainda/i),
+    ).toBeInTheDocument();
   });
 });
