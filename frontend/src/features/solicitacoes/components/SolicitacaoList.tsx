@@ -11,6 +11,10 @@ import {
 import { useSolicitacoes } from "../hooks/useSolicitacoes";
 import { StatusUpdateAction } from "./StatusUpdateAction";
 
+interface SolicitacaoListProps {
+  onSelect: (id: number) => void;
+}
+
 const categoriaLabels: Record<Categoria, string> = {
   CONSULTA: "Consulta",
   EXAME: "Exame",
@@ -40,7 +44,7 @@ function formatDate(date: string) {
   }).format(new Date(date));
 }
 
-export function SolicitacaoList() {
+export function SolicitacaoList({ onSelect }: SolicitacaoListProps) {
   const [draftFilters, setDraftFilters] = useState<SolicitacoesFilters>({});
   const [appliedFilters, setAppliedFilters] = useState<SolicitacoesFilters>({});
   const solicitacoesQuery = useSolicitacoes(appliedFilters);
@@ -236,7 +240,16 @@ export function SolicitacaoList() {
                     {formatDate(solicitacao.data_criacao)}
                   </td>
                   <td data-label="Ação">
-                    <StatusUpdateAction solicitacao={solicitacao} />
+                    <div className="list-actions">
+                      <button
+                        type="button"
+                        className="button-secondary detail-button"
+                        onClick={() => onSelect(solicitacao.id)}
+                      >
+                        Ver detalhes
+                      </button>
+                      <StatusUpdateAction solicitacao={solicitacao} />
+                    </div>
                   </td>
                 </tr>
               ))}
