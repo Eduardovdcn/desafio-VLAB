@@ -10,7 +10,7 @@ export function App() {
   >(null);
 
   return (
-    <main>
+    <main aria-label="Painel de solicitações">
       <Dashboard />
       <SolicitacaoForm />
       <SolicitacaoList onSelect={setSelectedSolicitacaoId} />

@@ -229,14 +229,18 @@ export function SolicitacaoForm() {
       </div>
 
       {mutation.isError && (
-        <p className="form-message form-message-error" role="alert">
+        <p
+          className="form-message form-message-error"
+          role="alert"
+          aria-live="assertive"
+        >
           {mutation.error instanceof Error
             ? mutation.error.message
             : "Não foi possível criar a solicitação."}
         </p>
       )}
       {successMessage && (
-        <p className="form-message form-message-success" role="status">
+        <p className="form-message form-message-success" role="status" aria-live="polite">
           {successMessage}
         </p>
       )}

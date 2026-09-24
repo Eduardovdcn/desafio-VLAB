@@ -10,9 +10,14 @@
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
   min-width: 320px;
+  background: linear-gradient(135deg, #eef3f1 0%, #dfe9e5 100%);
 }
 
 main {
@@ -21,9 +26,10 @@ main {
   align-items: start;
   justify-content: center;
   gap: 24px;
+  max-width: 1440px;
   min-height: 100vh;
+  margin: 0 auto;
   padding: 32px 16px;
-  background: linear-gradient(135deg, #eef3f1 0%, #dfe9e5 100%);
 }
 
 .dashboard {
@@ -274,10 +280,19 @@ button {
   font: inherit;
   font-weight: 700;
   cursor: pointer;
+  transition: background-color 150ms ease, box-shadow 150ms ease;
 }
 
 button:hover:not(:disabled) {
   background: #1d5b47;
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid rgb(39 115 91 / 30%);
+  outline-offset: 2px;
 }
 
 button:disabled {
@@ -600,59 +615,47 @@ dt {
   grid-column: 1 / -1;
 }
 
-@media (max-width: 560px) {
+@media (max-width: 1024px) {
   main {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
+  .dashboard-columns,
+  .detail-grid,
+  .filtros-grid,
   .form-grid {
     grid-template-columns: 1fr;
   }
 
-  .form-field-wide {
-    grid-column: auto;
-  }
-
-  .list-heading {
-    display: block;
-  }
-
-  .list-count {
-    display: block;
-    margin-top: 8px;
-  }
-
-  .filtros-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .dashboard-heading {
-    display: block;
-  }
-
-  .dashboard-total {
-    display: block;
-    margin-top: 10px;
-  }
-
-  .dashboard-columns {
-    grid-template-columns: 1fr;
-  }
-
+  .dashboard-heading,
+  .list-heading,
   .detail-heading {
     display: block;
   }
 
+  .dashboard-total,
+  .list-count,
   .detail-heading .button-secondary {
-    margin-top: 16px;
+    display: block;
+    margin-top: 10px;
   }
 
-  .detail-grid {
-    grid-template-columns: 1fr;
-  }
-
+  .form-field-wide,
   .detail-field-wide {
     grid-column: auto;
+  }
+}
+
+@media (max-width: 560px) {
+  main {
+    padding: 20px 12px 28px;
+  }
+
+  .solicitacao-form,
+  .solicitacoes-list,
+  .dashboard,
+  .solicitacao-detail {
+    padding: 20px 16px;
   }
 
   table,
@@ -692,5 +695,19 @@ dt {
     font-weight: 700;
     letter-spacing: 0.04em;
     text-transform: uppercase;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms;
+    animation-duration: 0.01ms;
+    animation-iteration-count: 1;
   }
 }
