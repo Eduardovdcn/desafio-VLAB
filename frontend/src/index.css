@@ -280,7 +280,9 @@ button {
   font: inherit;
   font-weight: 700;
   cursor: pointer;
-  transition: background-color 150ms ease, box-shadow 150ms ease;
+  transition:
+    background-color 150ms ease,
+    box-shadow 150ms ease;
 }
 
 button:hover:not(:disabled) {

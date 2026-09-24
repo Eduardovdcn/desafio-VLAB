@@ -24,7 +24,10 @@ describe("SolicitacaoForm", () => {
       </QueryClientProvider>,
     );
 
-    await user.type(screen.getByLabelText(/nome do solicitante/i), "Maria Silva");
+    await user.type(
+      screen.getByLabelText(/nome do solicitante/i),
+      "Maria Silva",
+    );
     await user.selectOptions(screen.getByLabelText(/categoria/i), "CONSULTA");
     await user.selectOptions(screen.getByLabelText(/prioridade/i), "URGENTE");
     await user.type(
@@ -32,7 +35,9 @@ describe("SolicitacaoForm", () => {
       "Solicitação urgente para atendimento rápido.",
     );
 
-    await user.click(screen.getByRole("button", { name: /criar solicitação/i }));
+    await user.click(
+      screen.getByRole("button", { name: /criar solicitação/i }),
+    );
 
     expect(
       await screen.findByText(

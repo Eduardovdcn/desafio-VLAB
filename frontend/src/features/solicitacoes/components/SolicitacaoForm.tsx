@@ -240,7 +240,11 @@ export function SolicitacaoForm() {
         </p>
       )}
       {successMessage && (
-        <p className="form-message form-message-success" role="status" aria-live="polite">
+        <p
+          className="form-message form-message-success"
+          role="status"
+          aria-live="polite"
+        >
           {successMessage}
         </p>
       )}
