@@ -3,6 +3,7 @@
 Aplicação full stack para registrar, listar e atualizar solicitações de atendimento.
 
 O projeto foi montado com:
+
 - Frontend em React + TypeScript + Vite
 - Backend em Laravel + PHP
 - PostgreSQL como banco principal
@@ -11,12 +12,14 @@ O projeto foi montado com:
 ## 1. Visão geral
 
 O sistema permite:
+
 - criar uma solicitação com categoria, prioridade, descrição e justificativa quando necessário;
 - listar solicitações com paginação e filtros por status, categoria e prioridade;
 - atualizar o status seguindo a máquina de estados; e
 - visualizar detalhes da solicitação em uma tela específica.
 
 A arquitetura segue o padrão solicitado no desafio:
+
 - Form Request para validar entrada
 - Controller fino
 - Action por operação de negócio
@@ -40,6 +43,7 @@ A arquitetura segue o padrão solicitado no desafio:
 A regra de transição de status está centralizada em `App\Support\StatusTransicao` e não duplicada em controllers ou frontend.
 
 Fluxo definido:
+
 - RECEBIDA -> EM_ANALISE ou CANCELADA
 - EM_ANALISE -> AGENDADA ou CANCELADA
 - AGENDADA -> CONCLUIDA ou CANCELADA
@@ -56,6 +60,7 @@ A escolha foi feita para evitar problemas de concorrência e manter um identific
 ### 3.3 Contrato API
 
 O backend expõe as rotas REST em `/api` e `/api/v1`:
+
 - `GET /api/health` — health check com verificação da conexão com PostgreSQL
 - `GET /api/openapi.yaml` — especificação OpenAPI em YAML
 - `POST /api/v1/solicitacoes`
@@ -80,6 +85,7 @@ As respostas de erro seguem o envelope definido no projeto:
 ## 4. Setup do ambiente local
 
 Pré-requisito:
+
 - Docker Desktop ou Docker Engine com Docker Compose habilitado
 
 ### 4.1 Configuração do ambiente
@@ -105,6 +111,7 @@ docker compose up --build
 ```
 
 O Compose sobe:
+
 - frontend em http://localhost:5173
 - backend em http://localhost:8000
 - PostgreSQL na rede interna do Compose
@@ -153,6 +160,7 @@ docker compose down -v
 ## 6. Funcionalidades implementadas
 
 ### Backend
+
 - criação de solicitação com validação de payload
 - status inicial sempre `RECEBIDA`
 - validação de `justificativa_prioridade` quando prioridade é `URGENTE`
@@ -167,6 +175,7 @@ docker compose down -v
 - migração automática ao subir o backend no Docker
 
 ### Frontend
+
 - formulário de criação da solicitação
 - listagem com carregamento, vazio, erro e filtros básicos
 - atualização de status diretamente na tabela
@@ -180,12 +189,14 @@ docker compose down -v
 O fluxo principal exigido pelo desafio já está concluído e validado em ambiente real com Docker.
 
 O projeto também inclui os itens de bônus relevantes que agregaram valor prático sem ampliar o escopo de autenticação ou ci/cd:
+
 - health check da API
 - seeders de dados reais
 - OpenAPI/Swagger
 - migração automática no boot do container
 
 ### Itens ainda fora do escopo atual
+
 - pipeline CI/CD completo
 - autenticação/autorização
 - diagramas visuais de arquitetura mais elaborados
@@ -223,6 +234,7 @@ npm run build
 ## 9. Uso de IA no projeto
 
 Este repositório foi usado como base para a implementação orientada por documentação e arquitetura, com foco em:
+
 - manter a regra de negócio centralizada em `StatusTransicao`;
 - usar `Form Request` para validação;
 - evitar duplicação de regras em controllers;
@@ -236,47 +248,3 @@ A IA foi usada como ferramenta de apoio para organização, implementação e va
 - O projeto foi desenhado para funcionar com o ambiente Docker do repositório, mantendo o setup simples e reproduzível.
 - O fluxo principal ponta a ponta está funcional, e os bônus relevantes também já foram incorporados.
 
-## 8. Como rodar testes
-
-### Backend
-
-```powershell
-docker compose run --rm backend php artisan test
-```
-
-Ou um arquivo específico:
-
-```powershell
-docker compose run --rm backend php artisan test tests/Feature/SolicitacaoCreateTest.php
-```
-
-### Frontend
-
-```powershell
-cd frontend
-npm test
-```
-
-Também é possível verificar lint e build:
-
-```powershell
-cd frontend
-npm run lint
-npm run build
-```
-
-## 9. Uso de IA no projeto
-
-Este repositório foi usado como base para a implementação orientada por documentação e arquitetura, com foco em:
-- manter a regra de negócio centralizada em `StatusTransicao`;
-- usar `Form Request` para validação;
-- evitar duplicação de regras em controllers;
-- seguir o contrato estabelecido pela documentação do desafio.
-
-A IA foi usada como ferramenta de apoio para organização, implementação e validação, mas a regra de negócio foi mantida na camada correta do backend e validada com testes e execução real do projeto.
-
-## 10. Observações finais
-
-- O arquivo `.env` é local e não deve ser versionado.
-- O projeto foi desenhado para funcionar com o ambiente Docker do repositório, mantendo o setup simples e reproduzível.
-- O fluxo principal ponta a ponta já está funcional e serve como base para evoluções futuras.

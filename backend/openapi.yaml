@@ -28,7 +28,7 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: Lista paginada de solicitações.
     post:
       summary: Criar solicitação
@@ -37,15 +37,15 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CriarSolicitacaoInput'
+              $ref: "#/components/schemas/CriarSolicitacaoInput"
       responses:
-        '201':
+        "201":
           description: Solicitação criada.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Solicitacao'
-        '400':
+                $ref: "#/components/schemas/Solicitacao"
+        "400":
           description: Dados inválidos.
   /v1/solicitacoes/{id}:
     get:
@@ -57,13 +57,13 @@ paths:
           schema:
             type: integer
       responses:
-        '200':
+        "200":
           description: Solicitação encontrada.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Solicitacao'
-        '404':
+                $ref: "#/components/schemas/Solicitacao"
+        "404":
           description: Solicitação não encontrada.
   /v1/solicitacoes/{id}/status:
     patch:
@@ -79,17 +79,17 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/AtualizarStatusInput'
+              $ref: "#/components/schemas/AtualizarStatusInput"
       responses:
-        '200':
+        "200":
           description: Status atualizado com sucesso.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Solicitacao'
-        '404':
+                $ref: "#/components/schemas/Solicitacao"
+        "404":
           description: Solicitação não encontrada.
-        '409':
+        "409":
           description: Transição de status inválida.
 components:
   schemas:
