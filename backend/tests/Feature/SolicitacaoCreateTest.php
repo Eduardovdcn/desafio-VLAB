@@ -52,6 +52,26 @@ class SolicitacaoCreateTest extends TestCase
             );
     }
 
+    public function test_nome_e_descricao_exigem_tamanho_minimo(): void
+    {
+        $response = $this->postJson('/api/v1/solicitacoes', [
+            'nome_solicitante' => '.',
+            'categoria' => 'CONSULTA',
+            'prioridade' => 'MEDIA',
+            'descricao' => '.',
+        ]);
+
+        $response->assertStatus(400)
+            ->assertJsonStructure([
+                'error' => [
+                    'details' => [
+                        'nome_solicitante',
+                        'descricao',
+                    ],
+                ],
+            ]);
+    }
+
     public function test_protocolo_e_unico(): void
     {
         $payload = [

@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { atualizarStatus } from "../../../api/solicitacoesClient";
 import type {
   Solicitacao,
@@ -35,10 +35,17 @@ export function StatusUpdateAction({ solicitacao }: StatusUpdateActionProps) {
   const [novoStatus, setNovoStatus] = useState<StatusAtualizavel>(
     opcoesStatus[0] ?? "CANCELADA",
   );
+  useEffect(() => {
+    setNovoStatus(opcoesStatus[0] ?? "CANCELADA");
+  }, [opcoesStatus, solicitacao.status]);
   const mutation = useMutation({
     mutationFn: () => atualizarStatus(solicitacao.id, { status: novoStatus }),
-    onSuccess: () => {
+    onSuccess: (solicitacaoAtualizada) => {
       queryClient.invalidateQueries({ queryKey: ["solicitacoes"] });
+      queryClient.setQueryData(
+        ["solicitacao", solicitacao.id],
+        solicitacaoAtualizada,
+      );
     },
   });
 

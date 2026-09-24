@@ -14,10 +14,10 @@ class CriarSolicitacaoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nome_solicitante' => ['required', 'string', 'max:255'],
+            'nome_solicitante' => ['required', 'string', 'min:3', 'max:255'],
             'categoria' => ['required', 'string', 'in:CONSULTA,EXAME,VACINACAO,OUTRO'],
             'prioridade' => ['required', 'string', 'in:BAIXA,MEDIA,ALTA,URGENTE'],
-            'descricao' => ['required', 'string'],
+            'descricao' => ['required', 'string', 'min:10'],
             'justificativa_prioridade' => ['nullable', 'string', 'required_if:prioridade,URGENTE'],
         ];
     }

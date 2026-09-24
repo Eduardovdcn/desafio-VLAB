@@ -10,6 +10,20 @@ import type {
   Status,
 } from "./types";
 
+interface LaravelPaginatedResponse<T> {
+  current_page: number;
+  data: T[];
+  from: number | null;
+  last_page: number;
+  per_page: number;
+  to: number | null;
+  total: number;
+  first_page_url: string | null;
+  last_page_url: string | null;
+  prev_page_url: string | null;
+  next_page_url: string | null;
+}
+
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL ?? "/api/v1";
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
@@ -46,9 +60,25 @@ export function listarSolicitacoes(filters: SolicitacoesFilters = {}) {
   });
 
   const query = params.toString();
-  return request<PaginatedResponse<Solicitacao>>(
+  return request<LaravelPaginatedResponse<Solicitacao>>(
     `/solicitacoes${query ? `?${query}` : ""}`,
-  );
+  ).then((response): PaginatedResponse<Solicitacao> => ({
+    data: response.data,
+    meta: {
+      current_page: response.current_page,
+      from: response.from,
+      last_page: response.last_page,
+      per_page: response.per_page,
+      to: response.to,
+      total: response.total,
+    },
+    links: {
+      first: response.first_page_url,
+      last: response.last_page_url,
+      prev: response.prev_page_url,
+      next: response.next_page_url,
+    },
+  }));
 }
 
 export function buscarSolicitacao(id: number) {

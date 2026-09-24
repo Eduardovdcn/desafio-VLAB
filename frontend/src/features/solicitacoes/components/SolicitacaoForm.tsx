@@ -43,12 +43,21 @@ const prioridadeLabels: Record<Prioridade, string> = {
 function validate(form: FormState): FormErrors {
   const errors: FormErrors = {};
 
-  if (!form.nome_solicitante.trim()) {
+  const nomeSolicitante = form.nome_solicitante.trim();
+  const descricao = form.descricao.trim();
+
+  if (!nomeSolicitante) {
     errors.nome_solicitante = "Informe o nome do solicitante.";
+  } else if (nomeSolicitante.length < 3) {
+    errors.nome_solicitante = "Informe um nome com pelo menos 3 caracteres.";
   }
   if (!form.categoria) errors.categoria = "Selecione uma categoria.";
   if (!form.prioridade) errors.prioridade = "Selecione uma prioridade.";
-  if (!form.descricao.trim()) errors.descricao = "Informe a descrição.";
+  if (!descricao) {
+    errors.descricao = "Informe a descrição.";
+  } else if (descricao.length < 10) {
+    errors.descricao = "Informe uma descrição com pelo menos 10 caracteres.";
+  }
   if (form.prioridade === "URGENTE" && !form.justificativa_prioridade.trim()) {
     errors.justificativa_prioridade =
       "A justificativa é obrigatória para prioridade urgente.";
