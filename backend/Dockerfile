@@ -19,8 +19,9 @@ WORKDIR /var/www/html
 COPY . /var/www/html
 
 RUN composer install --no-interaction --prefer-dist --no-progress --no-scripts \
-    && chmod -R 755 storage bootstrap/cache
+    && chmod -R 755 storage bootstrap/cache \
+    && chmod +x docker-entrypoint.sh
 
 EXPOSE 8000
 
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
+CMD ["bash", "./docker-entrypoint.sh"]

@@ -1,0 +1,171 @@
+openapi: 3.0.3
+info:
+  title: API de Solicitações de Atendimento
+  version: 1.0.0
+  description: Contrato da API para criação, listagem, detalhe e atualização de status de solicitações.
+servers:
+  - url: http://localhost:8000/api
+paths:
+  /v1/solicitacoes:
+    get:
+      summary: Listar solicitações
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+            default: 1
+        - in: query
+          name: status
+          schema:
+            type: string
+        - in: query
+          name: categoria
+          schema:
+            type: string
+        - in: query
+          name: prioridade
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Lista paginada de solicitações.
+    post:
+      summary: Criar solicitação
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CriarSolicitacaoInput'
+      responses:
+        '201':
+          description: Solicitação criada.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Solicitacao'
+        '400':
+          description: Dados inválidos.
+  /v1/solicitacoes/{id}:
+    get:
+      summary: Detalhes da solicitação
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Solicitação encontrada.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Solicitacao'
+        '404':
+          description: Solicitação não encontrada.
+  /v1/solicitacoes/{id}/status:
+    patch:
+      summary: Atualizar status da solicitação
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AtualizarStatusInput'
+      responses:
+        '200':
+          description: Status atualizado com sucesso.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Solicitacao'
+        '404':
+          description: Solicitação não encontrada.
+        '409':
+          description: Transição de status inválida.
+components:
+  schemas:
+    CriarSolicitacaoInput:
+      type: object
+      required:
+        - nome_solicitante
+        - categoria
+        - prioridade
+        - descricao
+      properties:
+        nome_solicitante:
+          type: string
+          example: Maria Silva
+        categoria:
+          type: string
+          enum: [CONSULTA, EXAME, VACINACAO, OUTRO]
+        prioridade:
+          type: string
+          enum: [BAIXA, MEDIA, ALTA, URGENTE]
+        descricao:
+          type: string
+          example: Solicitação de revisão cadastral.
+        justificativa_prioridade:
+          type: string
+          nullable: true
+          example: Atendimento prioritário por risco clínico.
+    AtualizarStatusInput:
+      type: object
+      required:
+        - status
+      properties:
+        status:
+          type: string
+          enum: [EM_ANALISE, AGENDADA, CONCLUIDA, CANCELADA]
+    Solicitacao:
+      type: object
+      required:
+        - id
+        - protocolo
+        - nome_solicitante
+        - categoria
+        - prioridade
+        - status
+        - descricao
+        - data_criacao
+        - data_atualizacao
+      properties:
+        id:
+          type: integer
+          example: 1
+        protocolo:
+          type: string
+          format: uuid
+          example: 550e8400-e29b-41d4-a716-446655440000
+        nome_solicitante:
+          type: string
+          example: Maria Silva
+        categoria:
+          type: string
+          enum: [CONSULTA, EXAME, VACINACAO, OUTRO]
+        prioridade:
+          type: string
+          enum: [BAIXA, MEDIA, ALTA, URGENTE]
+        status:
+          type: string
+          enum: [RECEBIDA, EM_ANALISE, AGENDADA, CONCLUIDA, CANCELADA]
+        descricao:
+          type: string
+          example: Solicitação para revisão cadastral.
+        justificativa_prioridade:
+          type: string
+          nullable: true
+        data_criacao:
+          type: string
+          format: date-time
+        data_atualizacao:
+          type: string
+          format: date-time
