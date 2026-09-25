@@ -19,6 +19,8 @@ WORKDIR /var/www/html
 COPY . /var/www/html
 
 RUN composer install --no-interaction --prefer-dist --no-progress --no-scripts \
+    && if [ ! -f .env ]; then cp .env.example .env; fi \
+    && php artisan key:generate --force >/dev/null 2>&1 \
     && chmod -R 755 storage bootstrap/cache \
     && chmod +x docker-entrypoint.sh
 

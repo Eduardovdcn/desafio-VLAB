@@ -102,6 +102,16 @@ No arquivo `.env`, defina uma senha para PostgreSQL:
 POSTGRES_PASSWORD=sua_senha_local
 ```
 
+[SE APP_KEY FOR GERADA MANUALMENTE — manter este bloco:]
+Gere a chave de aplicação do Laravel (necessária para o backend funcionar):
+
+```powershell
+docker compose run --rm backend php artisan key:generate
+```
+
+[SE APP_KEY FOR GERADA AUTOMATICAMENTE NO BOOT — usar esta linha no lugar do bloco acima:]
+A chave de aplicação do Laravel (`APP_KEY`) é gerada automaticamente na primeira subida do container — nenhum passo manual necessário.
+
 ### 4.2 Subir o projeto
 
 No diretório raiz do projeto:
@@ -116,7 +126,27 @@ O Compose sobe:
 - backend em http://localhost:8000
 - PostgreSQL na rede interna do Compose
 
-Para encerrar:
+[SE MIGRATIONS RODAM SOZINHAS NO BOOT — manter esta linha:]
+As migrations rodam automaticamente na inicialização do container do backend — o banco já sobe com o schema aplicado.
+
+[SE MIGRATIONS EXIGEM COMANDO MANUAL — usar este bloco no lugar da linha acima:]
+Depois que os containers estiverem no ar, rode as migrations:
+
+```powershell
+docker compose run --rm backend php artisan migrate
+```
+
+### 4.3 Popular o banco com dados fictícios (seeders)
+
+Para carregar dados de exemplo que facilitam a avaliação:
+
+```powershell
+docker compose run --rm backend php artisan db:seed
+```
+
+Isso popula a tabela `solicitacoes` com registros fictícios cobrindo as diferentes categorias, prioridades e status, úteis para testar filtros e a listagem sem precisar cadastrar dados manualmente.
+
+### 4.4 Encerrar o ambiente
 
 ```powershell
 docker compose down
@@ -233,14 +263,14 @@ npm run build
 
 ## 9. Uso de IA no projeto
 
-Este repositório foi usado como base para a implementação orientada por documentação e arquitetura, com foco em:
+Ferramentas de IA (Claude, via GitHub Copilot) foram usadas nas seguintes etapas, sob revisão manual em cada uma:
 
-- manter a regra de negócio centralizada em `StatusTransicao`;
-- usar `Form Request` para validação;
-- evitar duplicação de regras em controllers;
-- seguir o contrato estabelecido pela documentação do desafio.
+- **Documentação (`/docs`):** construção assistida de `requisitos.md`, `arquitetura.md`, `especificacoes.md` e `tarefas.md`, com decisões de arquitetura discutidas e justificadas antes da implementação (ex: escolha de UUID para o protocolo, padrão Form Request → Controller → Action sem Repository/DTO, formato do envelope de erro).
+- **Backend:** geração inicial de migrations, Model, Enums, Form Requests e Actions, seguindo estritamente os documentos de arquitetura e especificação. A centralização da máquina de estados em `StatusTransicao` foi um requisito explícito verificado manualmente no código gerado.
+- **Frontend:** geração inicial dos componentes de formulário, listagem, dashboard e integração com TanStack Query, a partir do contrato de API definido em `especificacoes.md`.
+- **Testes:** geração dos testes de backend cobrindo a matriz de transição de status e a validação de prioridade `URGENTE`, e do(s) teste(s) de frontend/E2E.
 
-A IA foi usada como ferramenta de apoio para organização, implementação e validação, mas a regra de negócio foi mantida na camada correta do backend e validada com testes e execução real do projeto.
+Todo código gerado foi revisado linha a linha antes de aceito, incluindo correções pontuais identificadas durante a revisão (ex: ajuste na criação da CHECK constraint via `DB::statement`, por não haver suporte nativo no Schema Builder do Laravel; e configuração explícita de `CREATED_AT`/`UPDATED_AT` no Model para mapear as colunas `data_criacao`/`data_atualizacao`). A regra de negócio permanece centralizada na camada de backend (Actions + `StatusTransicao`), não no prompt ou na ferramenta de IA.
 
 ## 10. Observações finais
 
